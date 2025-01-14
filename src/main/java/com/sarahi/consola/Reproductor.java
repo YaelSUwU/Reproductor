@@ -22,7 +22,7 @@ public class Reproductor {
     private static String album;
     private static String duracion;
 
-//getters and setters
+    //getters and setters
     public static MediaView getMediaView() {
         return mediaView;
     }
@@ -69,35 +69,44 @@ public class Reproductor {
     //llama al archivo y crea el contenido media, este se asigna al media player que permitira su reproduccion
     //en caso de ser archivo de videa crea la instancia de la clase Mediaview y la agrega a la clase ventana
     public Reproductor() {
-
-        PathAssets path=new PathAssets();
-        File file_cancion = new File(path.getPath()+"\\mala vida.mp3");
+        System.out.println("se crea reproductor");
+        PathAssets path = new PathAssets();
+        File file_cancion = new File(path.getPath() + "\\mala vida.mp3");
         if (file_cancion.exists()) {
             System.out.println("existe");
         }
-try {
-    cancion = new Media(file_cancion.toURI().toString());
-    cancion.setOnError(() -> System.out.println("error de cancion"));
-    mediaPlayer = new MediaPlayer(cancion);
-    mediaPlayer.setOnReady(() -> {
-        editarinfo(file_cancion.getName());
-    });
-    mediaPlayer.setOnError(() -> System.out.println("error de cancion"));
-    if (file_cancion.getName().endsWith(".mp4")) {
-        System.out.println("video mp4");
-        MediaView mediaView = new MediaView(mediaPlayer);
+        try {
+            cancion = new Media(file_cancion.toURI().toString());
+            cancion.setOnError(() -> System.out.println("error de cancion"));
+            mediaPlayer = new MediaPlayer(cancion);
+            mediaPlayer.setOnReady(() -> {
+                editarinfo(file_cancion.getName());
+            });
+            mediaPlayer.setOnError(() -> System.out.println("error de cancion"));
 
-        mediaView.setPreserveRatio(true);
-        Ventana.agregarReproductor(mediaView);
-    }
-}catch (Exception e){
-    System.out.println("agregar carpeta assets pf y redirigir el path a la carpeta formato C:\\doc");
-}
+            mediaPlayer.setOnEndOfMedia(() -> {
+                System.out.println("termino la cancion");
+                if (Ventana.getCancionesPlaylist().size() > 0) {
+                    PlayList.nextCancion(file_cancion.getName());
+                } else {
+                    ListadoNormal.nextCancion(file_cancion.getName());
+                }
+            });
+            if (file_cancion.getName().endsWith(".mp4")) {
+                System.out.println("video mp4");
+                MediaView mediaView = new MediaView(mediaPlayer);
+
+                mediaView.setPreserveRatio(true);
+                Ventana.agregarReproductor(mediaView);
+            }
+        } catch (Exception e) {
+            System.out.println("agregar carpeta assets pf y redirigir el path a la carpeta formato C:\\doc");
+        }
     }
 
 
     public Reproductor(File file) {
-
+        System.out.println("se crea reproductor");
         File file_cancion = file;
         if (file_cancion.exists()) {
             System.out.println("existe");
@@ -114,14 +123,21 @@ try {
         });
         mediaPlayer.setOnError(() -> System.out.println("error de cancion"));
         mediaPlayer.setOnEndOfMedia(() -> {
-            System.out.println("termino la cancion");
-            ListadoNormal.nextCancion(file_cancion.getName());
+            //System.out.println("termino la cancion");
+            if (Ventana.getCancionesPlaylist().size() >= 0) {
+              System.out.println("playlist");
+                System.out.println(Ventana.getCancionesPlaylist().size());
+                PlayList.nextCancion(file_cancion.getName());
+                Ventana.eliminarPlaylist(1);
+            } else {
+                ListadoNormal.nextCancion(file_cancion.getName());
+            }
         });
         if (file.getName().endsWith(".mp4")) {
-            System.out.println("video mp4");
+            //System.out.println("video mp4");
             MediaView mediaView = new MediaView(mediaPlayer);
 
-            mediaView.setPreserveRatio(true);
+            mediaView.setPreserveRatio(false);
             Ventana.agregarReproductor(mediaView);
         }
 
@@ -141,21 +157,21 @@ try {
 
     //metodos para acciones en el reproducto reproducir, pausar y detener
     public static void play() {
-        System.out.println("empezar a reproducir");
+       // System.out.println("empezar a reproducir");
         mediaPlayer.play();
     }
 
     ;
 
     public static void pausa() {
-        System.out.println("pausar musica");
+        //System.out.println("pausar musica");
         mediaPlayer.pause();
     }
 
     ;
 
     public static void stop() {
-        System.out.println("detener musica");
+        //System.out.println("detener musica");
         mediaPlayer.stop();
     }
 

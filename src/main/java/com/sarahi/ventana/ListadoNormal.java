@@ -78,7 +78,18 @@ public class ListadoNormal extends VBox {
                 delete.setStyle(
                         "-fx-background-color: transparent;"
                 );
+
+                Button agregarPlaylist=new Button("+");
+                agregarPlaylist.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        System.out.println("agregar a playlist");
+                        agregarCancionPlayList(boton.getText());
+                    }
+                });
+                agregarPlaylist.setStyle("-fx-background-color: transparent;");
                 eliminar.getChildren().add(boton);
+                eliminar.getChildren().add(agregarPlaylist);
                 eliminar.getChildren().add(delete);
                 getChildren().add(eliminar);
             }
@@ -131,7 +142,10 @@ public class ListadoNormal extends VBox {
         }
     }
 
+    public static void agregarCancionPlayList(String file){
+       Ventana.agregarPlayList(file);
 
+    }
 
     //metodo que reproduce la cancion seleccionada y la agrega al listado de reproducciones
     public static void indexSelecionado(String file) {

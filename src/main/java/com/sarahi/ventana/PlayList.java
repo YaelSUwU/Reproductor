@@ -12,26 +12,29 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sarahi.ventana.ListadoHistorial.historialSeleccionado;
 
-//clase que dibuja el historial de reproducciones
-public class ListadoHistorial extends VBox {
-    private static List<String> canciones = new ArrayList<String>();
+public class PlayList  extends VBox {
+    private static PathAssets path;
+    private static File carpeta;
+    private static String[] listado;
+    private static List<String> canciones=new ArrayList<>();
+
     public static List<String> getCanciones() {
         return canciones;
     }
+
     public static void setCanciones(List<String> canciones) {
-        ListadoHistorial.canciones = canciones;
+        PlayList.canciones = canciones;
     }
 
-
-    //constructores
-    public ListadoHistorial() {
+    public PlayList() {
 
         agregarCanciones(canciones);
 
     }
 
-    public ListadoHistorial(List<String> cancionesConstructor) {
+    public PlayList(List<String> cancionesConstructor) {
         agregarCanciones(cancionesConstructor);
 
     }
@@ -39,7 +42,7 @@ public class ListadoHistorial extends VBox {
 
     //crea el listado de canciones
     public void agregarCanciones(List<String> cancionesConstructor) {
-        getChildren().add(new Label("Historial de reproducciones"));
+        getChildren().add(new Label("Canciones en fila"));
         try {
             for (int i = 0; i < cancionesConstructor.size(); i++
             ) {
@@ -53,7 +56,7 @@ public class ListadoHistorial extends VBox {
 
 
     //en caso que se seleccione reproducir una cancion del historial
-    public static void historialSeleccionado(String file) {
+    public static void playlistSeleccionado(String file) {
         PathAssets path=new PathAssets();
         File cancionSeleccionada = new File(path.getPath()+"\\" + file);
         Ventana.reproductor.stop();
@@ -62,8 +65,28 @@ public class ListadoHistorial extends VBox {
         Ventana.agregarListadoHistorial(file);
     }
 
+    public static void nextCancion(String nombreCancion) {
+        path=new PathAssets();
+        carpeta = new File(path.getPath());
+        listado= Ventana.getCancionesPlaylist().toArray(new String[0]);
+
+        for (int i = 0; i < listado.length-1; i++) {
+            indexSelecionadoPL(listado[i]);
+        }
+
+    }
 
 
+    public static void indexSelecionadoPL(String file) {
+        System.out.println("index");
+        path=new PathAssets();
+        File cancionSeleccionada = new File(path.getPath()+"\\" + file);
+        Ventana.reproductor.stop();
+        Ventana.setReproductor(new Reproductor(cancionSeleccionada));
+        Ventana.reproductor.play();
+        Ventana.agregarListadoHistorial(file);
+
+    }
     //genera el boton del listado con su evento
     public static Button agregarBoton(String nombre) {
         Button boton = new Button(nombre);
@@ -91,6 +114,4 @@ public class ListadoHistorial extends VBox {
         );
 
     }
-
-
 }

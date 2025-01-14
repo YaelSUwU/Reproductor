@@ -25,6 +25,15 @@ public class Ventana {
     private static BorderPane panel;
     private static Integer filtro = 1;
     private static List<String> cancionesHistorial = new ArrayList<String>();
+    private static List<String> cancionesPlaylist = new ArrayList<String>();
+
+    public static List<String> getCancionesPlaylist() {
+        return cancionesPlaylist;
+    }
+
+    public static void setCancionesPlaylist(List<String> cancionesPlaylist) {
+        Ventana.cancionesPlaylist = cancionesPlaylist;
+    }
 
     public static Reproductor reproductor;
 
@@ -101,16 +110,37 @@ public class Ventana {
 
 
     //crea una nueva instancia que dibuja cada cancion que se escucha en el historial
-    public static void actualizarHistorial(List<String> cancionesconst) {
-        panel.setRight(new ListadoHistorial(cancionesconst));
+    public static void actualizarHistorial(List<String> cancionesconst,List<String>cancionesPl) {
+        System.out.println("actualizar todo");
+        HBox listados=new HBox();
+        listados.getChildren().add(new ListadoHistorial(cancionesconst));
+        listados.getChildren().add(new PlayList(cancionesPl));
+        System.out.println("se asigno");
+        panel.setRight(listados);
     }
 
+    public static void actualizarPlayList(List<String> cancionesPlaylist){
+        panel.setRight(new PlayList(cancionesPlaylist));
+    }
 
     //agrega la cancion nueva al historial
     public static void agregarListadoHistorial(String cancion) {
+        System.out.println("agregar: "+cancion);
         cancionesHistorial.add(cancion);
-        actualizarHistorial(cancionesHistorial);
+        actualizarHistorial(cancionesHistorial,cancionesPlaylist);
     }
+    public static void agregarPlayList(String cancion){
+        cancionesPlaylist.add(cancion);
+        actualizarHistorial(cancionesHistorial,cancionesPlaylist);
+
+    }
+
+    public static void eliminarPlaylist(int index){
+        cancionesPlaylist.remove(cancionesPlaylist.size()-1);
+        System.out.println("se elimino 1 sobran " +cancionesPlaylist.size());
+        actualizarHistorial(cancionesHistorial,cancionesPlaylist);
+    }
+
 
 
     //actualiza el listado de canciones en el menu cada que se agrega una cancion
