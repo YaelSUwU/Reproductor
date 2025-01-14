@@ -84,7 +84,7 @@ public class PlayList  extends VBox {
         Ventana.reproductor.stop();
         Ventana.setReproductor(new Reproductor(cancionSeleccionada));
         Ventana.reproductor.play();
-        Ventana.agregarListadoHistorial(file);
+        //Ventana.agregarListadoHistorial(file);
 
     }
     //genera el boton del listado con su evento

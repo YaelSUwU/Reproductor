@@ -137,7 +137,7 @@ public class Ventana {
 
     public static void eliminarPlaylist(int index){
         cancionesPlaylist.remove(cancionesPlaylist.size()-1);
-        System.out.println("se elimino 1 sobran " +cancionesPlaylist.size());
+        //System.out.println("se elimino 1 sobran " +cancionesPlaylist.size());
         actualizarHistorial(cancionesHistorial,cancionesPlaylist);
     }
 

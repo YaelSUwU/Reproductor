@@ -86,8 +86,10 @@ public class Reproductor {
 
             mediaPlayer.setOnEndOfMedia(() -> {
                 System.out.println("termino la cancion");
-                if (Ventana.getCancionesPlaylist().size() > 0) {
+                if (Ventana.getCancionesPlaylist().size() >= 0) {
                     PlayList.nextCancion(file_cancion.getName());
+                    Ventana.eliminarPlaylist(1);
+                    Ventana.agregarListadoHistorial(file_cancion.getName());
                 } else {
                     ListadoNormal.nextCancion(file_cancion.getName());
                 }
@@ -129,6 +131,7 @@ public class Reproductor {
                 System.out.println(Ventana.getCancionesPlaylist().size());
                 PlayList.nextCancion(file_cancion.getName());
                 Ventana.eliminarPlaylist(1);
+                Ventana.agregarListadoHistorial(file_cancion.getName());
             } else {
                 ListadoNormal.nextCancion(file_cancion.getName());
             }
