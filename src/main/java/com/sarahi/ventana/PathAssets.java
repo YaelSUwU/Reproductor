@@ -12,6 +12,8 @@ public class PathAssets {
     public void setPath(String path) {
         this.path = path;
     }
+
+    //TODO: agregar asset aqui
     public PathAssets() {
         this.path ="B:\\doc\\Proyectos\\web\\spring\\Reproductor\\assets\\musica";
     }
