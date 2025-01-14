@@ -54,7 +54,8 @@ public class ListadoHistorial extends VBox {
 
     //en caso que se seleccione reproducir una cancion del historial
     public static void historialSeleccionado(String file) {
-        File cancionSeleccionada = new File("B:\\doc\\Proyectos\\web\\spring\\Reproductor\\assets\\musica\\" + file);
+        PathAssets path=new PathAssets();
+        File cancionSeleccionada = new File(path.getPath()+"\\" + file);
         Ventana.reproductor.stop();
         Ventana.setReproductor(new Reproductor(cancionSeleccionada));
         Ventana.reproductor.play();

@@ -21,17 +21,21 @@ public class ListadoNormal extends VBox {
     private static String[] listado;
     private static File carpeta;
 
+    private static PathAssets path;
+
 
     //constructores
     public ListadoNormal() {
-        carpeta = new File("B:\\doc\\Proyectos\\web\\spring\\Reproductor\\assets\\musica");
+        path=new PathAssets();
+        carpeta = new File(path.getPath());
         listado = carpeta.list();
         agregarCanciones();
     }
 
 
     public ListadoNormal(int orden) {
-        carpeta = new File("B:\\doc\\Proyectos\\web\\spring\\Reproductor\\assets\\musica");
+        path=new PathAssets();
+        carpeta = new File(path.getPath());
         listado = carpeta.list();
         if (orden == 1) {
             Arrays.sort(listado);
@@ -84,7 +88,8 @@ public class ListadoNormal extends VBox {
 
     //metodo para dar obtener la siguiente cancion a reproducir
     public static void nextCancion(String nombreCancion) {
-        carpeta = new File("B:\\doc\\Proyectos\\web\\spring\\Reproductor\\assets\\musica");
+        path=new PathAssets();
+        carpeta = new File(path.getPath());
         listado = carpeta.list();
         //System.out.println(nombreCancion);
         for (int i = 0; i < listado.length; i++) {
@@ -115,7 +120,8 @@ public class ListadoNormal extends VBox {
 
     //metodo para eliminar cancion del reproductor
     public static void deleteFile(String file) {
-        File cancionSeleccionada = new File("B:\\doc\\Proyectos\\web\\spring\\Reproductor\\assets\\musica\\" + file);
+        path=new PathAssets();
+        File cancionSeleccionada = new File(path.getPath()+"\\" + file);
         try {
             Ventana.reproductor.stop();
             cancionSeleccionada.delete();
@@ -129,7 +135,8 @@ public class ListadoNormal extends VBox {
 
     //metodo que reproduce la cancion seleccionada y la agrega al listado de reproducciones
     public static void indexSelecionado(String file) {
-        File cancionSeleccionada = new File("B:\\doc\\Proyectos\\web\\spring\\Reproductor\\assets\\musica\\" + file);
+        path=new PathAssets();
+        File cancionSeleccionada = new File(path.getPath()+"\\" + file);
         Ventana.reproductor.stop();
         Ventana.setReproductor(new Reproductor(cancionSeleccionada));
         Ventana.reproductor.play();

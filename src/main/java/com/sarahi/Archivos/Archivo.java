@@ -1,5 +1,6 @@
 package com.sarahi.Archivos;
 
+import com.sarahi.ventana.PathAssets;
 import com.sarahi.ventana.Ventana;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -27,9 +28,9 @@ public class Archivo {
 
     //una vez obtenido el archivo, crea una copia del mismo en el reproductor
     public static void seleccionarArchivo() {
-
+        PathAssets path=new PathAssets();
         File archivo = explorador.showOpenDialog(escenario);
-        File destino = new File("B:\\doc\\Proyectos\\web\\spring\\Reproductor\\assets\\musica\\" + archivo.getName());
+        File destino = new File(  path.getPath() + "\\" + archivo.getName());
         try {
             copiarArchivo(archivo, destino);
             //Files.copy(Path.of(archivo.getPath()), destino, new StandardCopyOption[]{StandardCopyOption.REPLACE_EXISTING});

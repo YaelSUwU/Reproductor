@@ -1,9 +1,6 @@
 package com.sarahi.consola;
 
-import com.sarahi.ventana.AdelantarCancion;
-import com.sarahi.ventana.CancionInformacion;
-import com.sarahi.ventana.ListadoNormal;
-import com.sarahi.ventana.Ventana;
+import com.sarahi.ventana.*;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
@@ -72,26 +69,30 @@ public class Reproductor {
     //llama al archivo y crea el contenido media, este se asigna al media player que permitira su reproduccion
     //en caso de ser archivo de videa crea la instancia de la clase Mediaview y la agrega a la clase ventana
     public Reproductor() {
-        //File file_cancion= new File("malavida.mp3");
-        File file_cancion = new File("B:\\doc\\Proyectos\\web\\spring\\Reproductor\\assets\\musica\\mala vida.mp3");
+
+        PathAssets path=new PathAssets();
+        File file_cancion = new File(path.getPath()+"\\mala vida.mp3");
         if (file_cancion.exists()) {
             System.out.println("existe");
         }
+try {
+    cancion = new Media(file_cancion.toURI().toString());
+    cancion.setOnError(() -> System.out.println("error de cancion"));
+    mediaPlayer = new MediaPlayer(cancion);
+    mediaPlayer.setOnReady(() -> {
+        editarinfo(file_cancion.getName());
+    });
+    mediaPlayer.setOnError(() -> System.out.println("error de cancion"));
+    if (file_cancion.getName().endsWith(".mp4")) {
+        System.out.println("video mp4");
+        MediaView mediaView = new MediaView(mediaPlayer);
 
-        cancion = new Media(file_cancion.toURI().toString());
-        cancion.setOnError(() -> System.out.println("error de cancion"));
-        mediaPlayer = new MediaPlayer(cancion);
-        mediaPlayer.setOnReady(() -> {
-            editarinfo(file_cancion.getName());
-        });
-        mediaPlayer.setOnError(() -> System.out.println("error de cancion"));
-        if (file_cancion.getName().endsWith(".mp4")) {
-            System.out.println("video mp4");
-            MediaView mediaView = new MediaView(mediaPlayer);
-
-            mediaView.setPreserveRatio(true);
-            Ventana.agregarReproductor(mediaView);
-        }
+        mediaView.setPreserveRatio(true);
+        Ventana.agregarReproductor(mediaView);
+    }
+}catch (Exception e){
+    System.out.println("agregar carpeta assets pf y redirigir el path a la carpeta formato C:\\doc");
+}
     }
 
 
